@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_gencontrol:
+ifeq ($(shell (dpkg-vendor --derives-from Ubuntu && echo "yes")),yes)
+	dh_gencontrol -- '-Vosspd:Recommends=osspd [linux-any]' -Vosspd:Suggests=
+else
+	dh_gencontrol -- -Vosspd:Recommends= '-Vosspd:Suggests=osspd [linux-any]'
+endif
